@@ -17,16 +17,18 @@ Sử dụng **Playwright + Python** để kiểm thử hệ thống Mượn sác
 
 |              | Thông tin                    |
 | ------------ | ---------------------------- |
-| **Tên nhóm** | `<!-- VD: Nhóm 1 -->`        |
-| **Lớp**      | `<!-- VD: SE001.P11 -->`     |
-| **Học kỳ**   | `<!-- VD: HK2 2025-2026 -->` |
+| **Tên nhóm** | Group 16     |
+| **Lớp**      | ICT2.012     |
+| **Học kỳ**   | HK2 2025-2026|
 
-| #   | MSSV | Họ và tên | Vai trò     |
-| --- | ---- | --------- | ----------- |
-| 1   |      |           | Nhóm trưởng |
-| 2   |      |           | Thành viên  |
-| 3   |      |           | Thành viên  |
-| 4   |      |           | Thành viên  |
+| #   | MSSV | Họ và tên                    | Vai trò     |
+| --- | ---- | ---------                    | ----------- |
+| 1   | 23BA14028     | Vũ Minh Châu                 | Nhóm trưởng |
+| 2   | 23BA14184     | Nguyễn Minh Lương            | Thành viên  |
+| 3   | 23BA14008     | Lương Quỳnh Anh              | Thành viên  |
+| 4   | 23BA14183     | Nguyễn Thị Lương             | Thành viên  |
+| 5   | 2410042       | Lê Hiền Anh                  | Thành viên  |
+| 6   | 23BA14167     | Trần Thị Khánh Linh          | Thành viên  |
 
 ---
 
