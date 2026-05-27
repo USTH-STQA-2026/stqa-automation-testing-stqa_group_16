@@ -106,9 +106,7 @@ def test_login_fail_wrong_password(page, test_config):
 
     # [R✓] Revealability
     sem_text = " ".join(page.locator("flt-semantics").all_text_contents())
-    
     has_error = ("Mật khẩu không đúng" in sem_text.lower())
-
     still_on_login = ("Đăng nhập" in sem_text or "Login" in sem_text)
 
     assert has_error or still_on_login, \
@@ -151,9 +149,7 @@ def test_login_fail_empty_fields(page, test_config):
 
     # [R✓] Revealability
     sem_text = " ".join(page.locator("flt-semantics").all_text_contents())
-
     has_error = ("Vui lòng nhập email và mật khẩu" in sem_text.lower())
-
     still_on_login = ("Đăng nhập" in sem_text or "Login" in sem_text)
 
     assert has_error or still_on_login, \
