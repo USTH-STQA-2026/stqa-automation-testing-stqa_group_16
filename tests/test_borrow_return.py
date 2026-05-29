@@ -165,4 +165,34 @@ def test_return_book(page, test_config):
           (*Click và kiểm tra sách chuyển trạng thái hoặc có thông báo thành công*)
     """
     # TODO: Students implement here (Sinh viên viết code ở đây)
-    pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
+    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
+    # 1. Login
+    login(page, test_config)
+    enable_flutter_semantics(page)
+
+    # 2. Click tab "Mượn / Trả"
+    borrow_return_tab = page.locator('flt-semantics[role="tab"][aria-label="Mượn / Trả"]')
+    borrow_return_tab.first.wait_for(state="visible", timeout=10000)
+    borrow_return_tab.first.click()
+    
+    # 3. Check list books
+    borrowing_books = page.locator('flt-semantics[role="group"][aria-label*="Đang mượn"]')
+    borrowing_books.first.wait_for(state="visible", timeout=10000)
+    assert borrowing_books.count() > 0, "No borrowed books found"
+    
+    # 4. Click first return button
+    first_book = borrowing_books.first
+    return_button = first_book.locator('flt-semantics[role="button"]:has-text("Trả sách")')
+    return_button.first.wait_for(state="visible")
+    before_count = borrowing_books.count()    
+    return_button.first.click()
+
+    # 5. Wait UI update
+    page.wait_for_timeout(1500)
+    enable_flutter_semantics(page)
+
+    # Screenshot
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "returned_book_success.png"))
+
+    # 6. Assert
+    assert borrowing_books.count() == before_count - 1, "Book was not returned successfully"
