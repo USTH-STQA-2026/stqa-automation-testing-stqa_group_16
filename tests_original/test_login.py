@@ -90,29 +90,7 @@ def test_login_fail_wrong_password(page, test_config):
            (*Assert: URL vẫn ở trang đăng nhập HOẶC có thông báo lỗi*)
     """
     # TODO: Students implement here (Sinh viên viết code ở đây)
-    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
-        # [R] Reachability
-    page.goto(test_config["base_url"], wait_until="networkidle", timeout=60000)
-    enable_flutter_semantics(page)
-
-    # [I] Infection
-    flutter_fill(page, "Email", test_config["email"])
-    flutter_fill(page, "Mật khẩu", "wrongpassword123")
-    flutter_click_button(page, "Đăng nhập")
-
-    # [P] Propagation
-    wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "login_fail_wrong_password.png"))
-
-    # [R✓] Revealability
-    sem_text = " ".join(page.locator("flt-semantics").all_text_contents())
-    has_error = ("Mật khẩu không đúng" in sem_text.lower())
-    still_on_login = ("Đăng nhập" in sem_text or "Login" in sem_text)
-
-    assert has_error or still_on_login, \
-        f"Expected login failure message or still on login page " \
-        f"(Không tìm thấy dấu hiệu đăng nhập thất bại)"
-    
+    pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
 
 
 def test_login_fail_empty_fields(page, test_config):
@@ -133,25 +111,4 @@ def test_login_fail_empty_fields(page, test_config):
         4. Assert: URL still on login page (*Assert: URL vẫn ở trang đăng nhập*)
     """
     # TODO: Students implement here (Sinh viên viết code ở đây)
-    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
-    # [R] Reachability
-    page.goto(test_config["base_url"], wait_until="networkidle", timeout=60000)
-    enable_flutter_semantics(page)
-
-    # [I] Infection
-    flutter_fill(page, "Email", "")
-    flutter_fill(page, "Mật khẩu", "")
-    flutter_click_button(page, "Đăng nhập")
-
-    # [P] Propagation
-    wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "login_fail_empty_fields.png"))
-
-    # [R✓] Revealability
-    sem_text = " ".join(page.locator("flt-semantics").all_text_contents())
-    has_error = ("Vui lòng nhập email và mật khẩu" in sem_text.lower())
-    still_on_login = ("Đăng nhập" in sem_text or "Login" in sem_text)
-
-    assert has_error or still_on_login, \
-        f"Expected login failure message or still on login page " \
-        f"(Không tìm thấy dấu hiệu đăng nhập thất bại)"
+    pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
