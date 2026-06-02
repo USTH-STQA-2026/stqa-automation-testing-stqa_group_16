@@ -45,7 +45,7 @@ def test_logout(page, test_config):
     logout_btn.click()
 
     # [P] Propagation: Chờ hệ thống xử lý logout và UI re-render về trang login
-    time.sleep(1000)
+    time.sleep(3)
     enable_flutter_semantics(page)  # Bật lại semantics sau khi trang thay đổi
 
     # Chụp screenshot ghi lại trạng thái sau khi đăng xuất
@@ -90,7 +90,7 @@ def test_switch_language_to_english(page, test_config):
     lang_btn.click()
 
     # [P] Propagation: Chờ hệ thống i18n re-render toàn bộ UI sang tiếng Anh
-    time.sleep(1000)
+    time.sleep(3)
     enable_flutter_semantics(page)  # Bật lại semantics sau khi UI re-render
 
     # Chụp screenshot ghi lại UI sau khi chuyển sang tiếng Anh
