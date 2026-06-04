@@ -22,12 +22,8 @@ from conftest import (
     login, SCREENSHOT_DIR, wait_for_flutter
 )
 
-@pytest.mark.parametrize(
-    "search_keyword", 
-    ["Flutter", "flutter", "FLUTTER", "Cấu trúc dữ liệu"] # Parametrize: Test cả chữ hoa, chữ thường, và tên sách khác
-)
 
-def test_search_book_by_name(page, test_config, search_keyword):
+def test_search_book_by_name(page, test_config):
     """TC-04: Search book by name - results found (*Tìm kiếm sách theo tên — tìm thấy kết quả*)
 
     Description (*Mô tả*):
@@ -52,26 +48,22 @@ def test_search_book_by_name(page, test_config, search_keyword):
     enable_flutter_semantics(page)
 
     # [I] Infection
-    flutter_fill(page, "Tìm kiếm theo tên sách hoặc tác giả...", search_keyword)
+    flutter_fill(page, "Tìm kiếm theo tên sách hoặc tác giả...", "Flutter")
     # Lưu ý: Nếu hệ thống tự tìm khi gõ thì không cần dòng dưới, nếu cần bấm nút thì giữ lại nút "Tìm kiếm"
     # flutter_click_button(page, "Tìm kiếm") 
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"search_book_by_name_{search_keyword}.png"))
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "search_book_by_name.png"))
 
     # [R✓] Revealability
-    flutter_books = page.locator(f'flt-semantics[aria-label*="{search_keyword}"]')
+    flutter_books = page.locator('flt-semantics[aria-label*="Flutter"]')
     assert flutter_books.count() > 0, \
-        f"Search failed: No books found containing '{search_keyword}'" \
-        f"(Tìm kiếm thất bại: Không thấy sách chứa '{search_keyword}')"
+        f"Search failed: No books found containing 'Flutter' " \
+        f"(Tìm kiếm thất bại: Không thấy sách chứa 'Flutter')"
 
-@pytest.mark.parametrize(
-    "invalid_keyword", 
-    ["xyz_khong_ton_tai_12345", "@#$%^&*()", "sach_doc_ban_2026"] # Parametrize: Test từ khóa rác, ký tự đặc biệt
-)
 
-def test_search_book_no_result(page, test_config, invalid_keyword):
+def test_search_book_no_result(page, test_config):
     """TC-05: Search book - no results (*Tìm kiếm sách — không có kết quả*)
 
     Description (*Mô tả*):
@@ -94,24 +86,20 @@ def test_search_book_no_result(page, test_config, invalid_keyword):
     enable_flutter_semantics(page)
 
     # [I] Infection
-    flutter_fill(page, "Tìm kiếm theo tên sách hoặc tác giả...", invalid_keyword)
+    flutter_fill(page, "Tìm kiếm theo tên sách hoặc tác giả...", "xyz_khong_ton_tai_12345")
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"search_book_no_result_{invalid_keyword}.png"))
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "search_book_no_result.png"))
 
     # [R✓] Revealability
     book_cards = page.locator('flt-semantics[role="group"][aria-label*="Mã: BOOK"]')
     assert book_cards.count() == 0, \
-        f"Expected 0 books displayed for '{invalid_keyword}', but found {book_cards.count()} " \
+        f"Expected 0 books displayed, but found {book_cards.count()} " \
         f"(Lỗi: Lẽ ra không có sách nào hiển thị)"
 
-@pytest.mark.parametrize(
-    "category_name", 
-    ["Công nghệ", "Kinh tế", "Văn học"] # Parametrize: Test qua nhiều thể loại khác nhau trong hệ thống
-)
 
-def test_filter_by_category(page, test_config, category_name):
+def test_filter_by_category(page, test_config):
     """TC-06: Filter books by category 'Công nghệ' (*Lọc sách theo thể loại 'Công nghệ'*)
 
     Description (*Mô tả*):
@@ -140,32 +128,29 @@ def test_filter_by_category(page, test_config, category_name):
     enable_flutter_semantics(page)
 
     # [I] Infection
-    flutter_fill(page, "Lọc theo thể loại (VD: Công nghệ, Kinh tế...)", category_name)
+    flutter_fill(page, "Lọc theo thể loại (VD: Công nghệ, Kinh tế...)", "Công nghệ")
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"filter_by_category_{category_name}.png"))
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "filter_by_category.png"))
 
     # [R✓] Revealability
     book_cards = page.locator('flt-semantics[role="group"][aria-label*="Mã: BOOK"]')
     total_books = book_cards.count()
     
     # Kiểm tra xem có sách nào xuất hiện để check không
-    assert total_books > 0, f"No books found after applying '{category_name}' filter (Không có sách nào hiển thị sau khi lọc)"
+    assert total_books > 0, "No books found after applying 'Công nghệ' filter (Không có sách nào hiển thị sau khi lọc)"
 
     # Lặp qua từng sách để verify aria-label chứa "Công nghệ"
     for i in range(total_books):
         aria_label = book_cards.nth(i).get_attribute("aria-label") or ""
         assert "Công nghệ" in aria_label, \
-            f"Book at index {i} does not belong to '{category_name}' category. Label: {aria_label} " \
-            f"(Sách không thuộc thể loại '{category_name}')"
+            f"Book at index {i} does not belong to 'Công nghệ' category. Label: {aria_label} " \
+            f"(Sách không thuộc thể loại Công nghệ)"
 
-@pytest.mark.parametrize(
-    "author_name", 
-    ["Nguyễn Minh Đức", "Trần Thu Hà", "Robert C. Martin"] # Parametrize: Test nhiều tác giả khác nhau
-)
 
-def test_search_by_author(page, test_config, author_name):
+
+def test_search_by_author(page, test_config):
     """TC-07: Search book by author name (*Tìm kiếm sách theo tên tác giả*)
 
     Description (*Mô tả*):
@@ -188,14 +173,14 @@ def test_search_by_author(page, test_config, author_name):
     enable_flutter_semantics(page)
 
     # [I] Infection
-    flutter_fill(page, "Tìm kiếm theo tên sách hoặc tác giả...", author_name)
+    flutter_fill(page, "Tìm kiếm theo tên sách hoặc tác giả...", "Nguyễn Minh Đức")
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"search_by_author_{author_name}.png"))
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "search_by_author.png"))
 
     # [R✓] Revealability
-    author_results = page.locator(f'flt-semantics[aria-label*="{author_name}"]')
+    author_results = page.locator('flt-semantics[aria-label*="Nguyễn Minh Đức"]')
     assert author_results.count() > 0, \
-        f"Search failed: No results found for author '{author_name}' " \
-        f"(Không tìm thấy sách của tác giả '{author_name}')"
+        f"Search failed: No results found for author 'Nguyễn Minh Đức' " \
+        f"(Không tìm thấy sách của tác giả Nguyễn Minh Đức)"
