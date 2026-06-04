@@ -21,7 +21,7 @@ import time
 import pytest
 from conftest import (
     enable_flutter_semantics, flutter_fill, flutter_click_button,
-    login, SCREENSHOT_DIR, page,
+    login, SCREENSHOT_DIR, page, wait_for_flutter,
 )
 
 
@@ -53,23 +53,18 @@ def test_borrow_book(page, test_config):
     # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
     # 1. Login
     login(page, test_config)
-    enable_flutter_semantics(page)
 
     # 2. Find available books
     available_books = page.locator('flt-semantics[role="group"][aria-label*="Có sẵn"]')
-    assert available_books.count() > 0, "No available books found"
     book = available_books.first 
-
-    # Debug
-    # print(f"\nAvailable books count: {available_books.count()}")
+    before_count = page.locator('flt-semantics[role="group"]:has-text("Mượn sách này")').count()
 
     # 3. Click borrow button
     # nen dung local khong dung global "page"
-    borrow_buttons = book.locator('flt-semantics[role="button"]:has-text("Mượn sách này")')
-    borrow_buttons.first.click()
-
+    borrow_button = book.locator('flt-semantics[role="button"]:has-text("Mượn sách này")')
+    borrow_button.first.click()
     # 4. Wait confirmation dialog
-    page.wait_for_timeout(2000)
+    wait_for_flutter(page, text="Xác nhận")
     enable_flutter_semantics(page)
 
     # 5. Confirm borrow
@@ -77,22 +72,20 @@ def test_borrow_book(page, test_config):
     button = page.locator('flt-semantics[role="button"]:has-text("Mượn")')
     assert button.count() > 0, "Confirm button not found"
     button.first.click()
-        
+    
     # Wait UI update
-    page.wait_for_timeout(3000) 
+    wait_for_flutter(page, text="thành công")
     enable_flutter_semantics(page)
+    print("\n===== PAGE CONTENT =====")
+    print("\n".join(page.locator("flt-semantics").all_text_contents()))
+    after_count = page.locator('flt-semantics[role="group"]:has-text("Mượn sách này")').count()
 
     # Screenshot
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "borrow_book.png"))
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, "borrow_book_success.png"))
 
     # 6. Assert
-    # cnay cung global khong nen dung 
-    sem_text = " ".join(page.locator("flt-semantics").all_text_contents())
-    has_borrowed = ("Đang mượn" in sem_text)
-    # has_borrowed = ("Đang mượn" in book.inner_text()) # sao cach nay sai ? 
-    assert has_borrowed, \
-        f"Borrow book failed " \
-        f"(Không tìm thấy dấu hiệu mượn sách thành công)"
+    assert after_count == before_count - 1, \
+        f"Borrow book failed or invalid book status or over limit quantity of books" 
 
 
 def test_view_borrowed_books(page, test_config):
