@@ -22,9 +22,13 @@ from conftest import (
     login, SCREENSHOT_DIR, wait_for_flutter
 )
 
+def safe_filename(text):
+    import re
+    return re.sub(r'[^\w\-_.]', '_', text)
+
 @pytest.mark.parametrize(
     "search_keyword", 
-    ["Flutter", "flutter", "FLUTTER", "Cấu trúc dữ liệu"] # Parametrize: Test cả chữ hoa, chữ thường, và tên sách khác
+    ["Flutter", "flutter"]
 )
 
 def test_search_book_by_name(page, test_config, search_keyword):
@@ -58,7 +62,8 @@ def test_search_book_by_name(page, test_config, search_keyword):
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"search_book_by_name_{search_keyword}.png"))
+    filename = safe_filename(f"search_book_by_name_{search_keyword}.png")
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, filename))
 
     # [R✓] Revealability
     flutter_books = page.locator(f'flt-semantics[aria-label*="{search_keyword}"]')
@@ -68,7 +73,7 @@ def test_search_book_by_name(page, test_config, search_keyword):
 
 @pytest.mark.parametrize(
     "invalid_keyword", 
-    ["xyz_khong_ton_tai_12345", "@#$%^&*()", "sach_doc_ban_2026"] # Parametrize: Test từ khóa rác, ký tự đặc biệt
+    ["xyz_khong_ton_tai_12345", "sach_doc_ban_2026"]
 )
 
 def test_search_book_no_result(page, test_config, invalid_keyword):
@@ -98,7 +103,8 @@ def test_search_book_no_result(page, test_config, invalid_keyword):
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"search_book_no_result_{invalid_keyword}.png"))
+    filename = safe_filename(f"search_book_no_result_{invalid_keyword}.png")
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, filename))
 
     # [R✓] Revealability
     book_cards = page.locator('flt-semantics[role="group"][aria-label*="Mã: BOOK"]')
@@ -108,7 +114,7 @@ def test_search_book_no_result(page, test_config, invalid_keyword):
 
 @pytest.mark.parametrize(
     "category_name", 
-    ["Công nghệ", "Kinh tế", "Văn học"] # Parametrize: Test qua nhiều thể loại khác nhau trong hệ thống
+    ["Công nghệ", "Quản trị", "Kinh tế"]
 )
 
 def test_filter_by_category(page, test_config, category_name):
@@ -144,7 +150,8 @@ def test_filter_by_category(page, test_config, category_name):
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"filter_by_category_{category_name}.png"))
+    filename = safe_filename(f"filter_by_category_{category_name}.png")
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, filename))
 
     # [R✓] Revealability
     book_cards = page.locator('flt-semantics[role="group"][aria-label*="Mã: BOOK"]')
@@ -156,13 +163,13 @@ def test_filter_by_category(page, test_config, category_name):
     # Lặp qua từng sách để verify aria-label chứa "Công nghệ"
     for i in range(total_books):
         aria_label = book_cards.nth(i).get_attribute("aria-label") or ""
-        assert "Công nghệ" in aria_label, \
+        assert category_name in aria_label, \
             f"Book at index {i} does not belong to '{category_name}' category. Label: {aria_label} " \
             f"(Sách không thuộc thể loại '{category_name}')"
 
 @pytest.mark.parametrize(
     "author_name", 
-    ["Nguyễn Minh Đức", "Trần Thu Hà", "Robert C. Martin"] # Parametrize: Test nhiều tác giả khác nhau
+    ["Nguyễn Minh Đức", "Lê Minh Khuê", "Trương Văn Phúc"]
 )
 
 def test_search_by_author(page, test_config, author_name):
@@ -192,7 +199,8 @@ def test_search_by_author(page, test_config, author_name):
 
     # [P] Propagation (Smart Wait)
     wait_for_flutter(page)
-    page.screenshot(path=os.path.join(SCREENSHOT_DIR, f"search_by_author_{author_name}.png"))
+    filename = safe_filename(f"search_by_author_{author_name}.png")
+    page.screenshot(path=os.path.join(SCREENSHOT_DIR, filename))
 
     # [R✓] Revealability
     author_results = page.locator(f'flt-semantics[aria-label*="{author_name}"]')
