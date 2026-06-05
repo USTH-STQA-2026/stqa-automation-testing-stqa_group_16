@@ -30,7 +30,7 @@ def test_login_success(page, test_config):
 @pytest.mark.parametrize(
     "email,password,expected_error,tc_id",
     [
-        ("ba.nguyen@email.com", "wrongpassword", "Mật khẩu không đúng.", "TC-02"),
+        ("cu.le@email.com", "wrongpassword", "Mật khẩu không đúng.", "TC-02"),
         ("", "", "Vui lòng nhập email và mật khẩu.", "TC-03"),
     ],
     ids=[

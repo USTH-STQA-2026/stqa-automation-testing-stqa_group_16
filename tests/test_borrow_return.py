@@ -28,8 +28,6 @@ from conftest import (
 def test_borrow_book(page, test_config):
     """TC-08: Borrow an available book (*Mượn sách có trạng thái 'Có sẵn'*)
 
-    🔴 NOT COMPLETED (*CHƯA HOÀN THÀNH*)
-
     Description (*Mô tả*):
         Log in → find an "Available" book → click "Mượn sách này" → confirm dialog
         → verify book status changes to "Borrowed".
@@ -49,8 +47,7 @@ def test_borrow_book(page, test_config):
         6. Assert: "Đang mượn" or "thành công" appears
            (*Assert: "Đang mượn" hoặc "thành công" xuất hiện*)
     """
-    # TODO: Students implement here (Sinh viên viết code ở đây)
-    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
+
     # 1. Login
     login(page, test_config)
 
@@ -76,8 +73,6 @@ def test_borrow_book(page, test_config):
     # Wait UI update
     wait_for_flutter(page, text="thành công")
     enable_flutter_semantics(page)
-    print("\n===== PAGE CONTENT =====")
-    print("\n".join(page.locator("flt-semantics").all_text_contents()))
     after_count = page.locator('flt-semantics[role="group"]:has-text("Mượn sách này")').count()
 
     # Screenshot
@@ -91,8 +86,6 @@ def test_borrow_book(page, test_config):
 def test_view_borrowed_books(page, test_config):
     """TC-09: View borrowed books list (*Xem danh sách sách đang mượn — tab Mượn / Trả*)
 
-    🔴 NOT COMPLETED (*CHƯA HOÀN THÀNH*)
-
     Description (*Mô tả*):
         Log in → switch to "Mượn / Trả" tab → verify borrowed books are shown.
         (*Đăng nhập → chuyển sang tab "Mượn / Trả" → kiểm tra có sách đang mượn.*)
@@ -102,11 +95,9 @@ def test_view_borrowed_books(page, test_config):
         - Verify: books with "Đang mượn" in aria-label, or "Trả sách" button exists
           (*Kiểm tra: có sách với aria-label chứa "Đang mượn" hoặc có nút "Trả sách"*)
     """
-    # TODO: Students implement here (Sinh viên viết code ở đây)
-    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
+    
     # 1. Login
     login(page, test_config)
-    enable_flutter_semantics(page)
 
     # 2. Click tab "Mượn / Trả"
     borrow_return_tab = page.locator('flt-semantics[role="tab"][aria-label="Mượn / Trả"]')
@@ -144,8 +135,6 @@ def test_view_borrowed_books(page, test_config):
 def test_return_book(page, test_config):
     """TC-10: Return a borrowed book (*Trả sách đang mượn*)
 
-    🔴 NOT COMPLETED (*CHƯA HOÀN THÀNH*)
-
     Description (*Mô tả*):
         Log in → go to "Mượn / Trả" tab → click "Trả sách" → verify book is returned.
         (*Đăng nhập → tab "Mượn / Trả" → click "Trả sách" → kiểm tra sách được trả.*)
@@ -157,11 +146,9 @@ def test_return_book(page, test_config):
         - Click and verify status change or success message
           (*Click và kiểm tra sách chuyển trạng thái hoặc có thông báo thành công*)
     """
-    # TODO: Students implement here (Sinh viên viết code ở đây)
-    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
+
     # 1. Login
     login(page, test_config)
-    enable_flutter_semantics(page)
 
     # 2. Click tab "Mượn / Trả"
     borrow_return_tab = page.locator('flt-semantics[role="tab"][aria-label="Mượn / Trả"]')

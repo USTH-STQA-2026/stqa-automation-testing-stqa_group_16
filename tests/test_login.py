@@ -52,9 +52,6 @@ def test_login_success(page, test_config):
 def test_login_fail_wrong_password(page, test_config):
     """TC-02: Login fail – wrong password (*Đăng nhập thất bại – sai mật khẩu*)
 
-    🔴 NOT COMPLETED — Students must implement this test case.
-    (*CHƯA HOÀN THÀNH — Sinh viên cần viết code cho test case này.*)
-
     Description (*Mô tả*):
         Enter correct email but wrong password → system stays on login page
         or shows an error message.
@@ -89,8 +86,7 @@ def test_login_fail_wrong_password(page, test_config):
         6. Assert: URL still on login page OR error message shown
            (*Assert: URL vẫn ở trang đăng nhập HOẶC có thông báo lỗi*)
     """
-    # TODO: Students implement here (Sinh viên viết code ở đây)
-    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
+
         # [R] Reachability
     page.goto(test_config["base_url"], wait_until="networkidle", timeout=60000)
     enable_flutter_semantics(page)
@@ -118,9 +114,6 @@ def test_login_fail_wrong_password(page, test_config):
 def test_login_fail_empty_fields(page, test_config):
     """TC-03: Login fail – empty fields (*Đăng nhập thất bại – để trống các trường*)
 
-    🔴 NOT COMPLETED — Students must implement this test case.
-    (*CHƯA HOÀN THÀNH — Sinh viên cần viết code cho test case này.*)
-
     Description (*Mô tả*):
         Leave all fields empty, click Login → system stays on login page.
         (*Không nhập gì, bấm Đăng nhập → hệ thống không chuyển trang.*)
@@ -132,8 +125,7 @@ def test_login_fail_empty_fields(page, test_config):
            (*KHÔNG nhập Email/Mật khẩu — click "Đăng nhập" ngay*)
         4. Assert: URL still on login page (*Assert: URL vẫn ở trang đăng nhập*)
     """
-    # TODO: Students implement here (Sinh viên viết code ở đây)
-    # pytest.skip("Not implemented — student must complete (Chưa hoàn thành)")
+    
     # [R] Reachability
     page.goto(test_config["base_url"], wait_until="networkidle", timeout=60000)
     enable_flutter_semantics(page)
