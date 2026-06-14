@@ -146,8 +146,6 @@ Bốn hàm tìm kiếm được mở rộng với nhiều bộ dữ liệu hơn:
 
 ## 5. Nhận xét kỹ thuật
 
-### 5.1 Những điểm làm tốt
-
 **Xử lý Flutter Web (CanvasKit):** Toàn bộ test dùng đúng cơ chế Semantics Tree (`flt-semantics`) và Smart Wait (`wait_for_flutter()`), tránh dùng `time.sleep()` ở hầu hết các bước. Điều này giúp test ổn định và chạy nhanh hơn.
 
 **Chất lượng Oracle:** TC-06 và TC-09 dùng Strong Oracle — kiểm tra từng phần tử trong danh sách thay vì chỉ kiểm tra sự tồn tại. Đây là cải tiến đáng kể so với Null Oracle hoặc Weak Oracle.
@@ -155,12 +153,3 @@ Bốn hàm tìm kiếm được mở rộng với nhiều bộ dữ liệu hơn:
 **Cấu trúc RIPR:** Mỗi test case đều có comment `[R]`, `[I]`, `[P]`, `[R✓]` rõ ràng, thể hiện hiểu đúng mô hình RIPR (Reachability, Infection, Propagation, Revealability).
 
 **Data-Driven Testing:** `tests_BONUS/test_login.py` và `tests_BONUS/test_search.py` áp dụng `@pytest.mark.parametrize` đúng cách — một hàm test chạy nhiều bộ dữ liệu, giảm code trùng lặp.
-
-### 5.2 Những điểm cần cải thiện
-
-**Sử dụng `time.sleep()` ở TC-11 và TC-12:** Hai test case đăng xuất và đổi ngôn ngữ vẫn dùng `time.sleep(3)` ở bước Propagation. Nếu máy chạy CI chậm, đây là nguồn gốc của flaky test. Có thể thay bằng cách chờ một element cụ thể xuất hiện sau khi trang reload.
-
-**TC-10 dùng `wait_for_timeout(1500)`:** Sau khi trả sách, test chờ 1.5 giây cố định. Nên thay bằng `wait_for_flutter(page, text="thành công")` hoặc chờ card sách biến mất khỏi danh sách.
-
-**TC-13 phụ thuộc vào trạng thái ban đầu:** Test tính `remaining = 3 - current_count` và mượn đủ số sách còn thiếu. Nếu tài khoản đã mượn > 3 quyển (do bug BUG-02 từ lần chạy trước), logic này có thể lặp âm lần. Cần reset dữ liệu trước hoặc kiểm tra điều kiện đầu vào.
-
