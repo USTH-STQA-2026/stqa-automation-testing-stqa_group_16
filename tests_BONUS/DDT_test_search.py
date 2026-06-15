@@ -66,7 +66,7 @@ def test_search_book_by_name(page, test_config, search_keyword):
     page.screenshot(path=os.path.join(SCREENSHOT_DIR, filename))
 
     # [R✓] Revealability
-    flutter_books = page.locator(f'flt-semantics[aria-label*="{search_keyword}"]')
+    flutter_books = page.locator(f'flt-semantics[aria-label*="{search_keyword}" i]')
     assert flutter_books.count() > 0, \
         f"Search failed: No books found containing '{search_keyword}'" \
         f"(Tìm kiếm thất bại: Không thấy sách chứa '{search_keyword}')"
